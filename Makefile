@@ -18,6 +18,11 @@ install: build-bundle-dir install-neobundle paste-config all-done
 
 build-bundle-dir:
 	@echo "building $(BUNDLE_DIR)..."
+	@if [ -d $(VIM_DIR) ]; then \
+		echo "old .vim/ file renamed to .vim.backup/" ; \
+		mv -f $(VIM_DIR) $(VIM_DIR).backup ; \
+	fi
+	@cp -rf ./.vim $(VIM_DIR)
 	@if [ -d $(BUNDLE_DIR) ]; then \
 		echo "old bundle/ dir renamed to bundle.backup/" ; \
 		mv -f $(BUNDLE_DIR) $(BUNDLE_DIR).backup ; \
@@ -35,11 +40,6 @@ paste-config:
 		mv -f $(VIMRC_PATH) $(VIMRC_PATH).backup ; \
 	fi
 	@cp -f ./.vimrc $(VIMRC_PATH)
-	@if [ -d $(VIM_DIR) ]; then \
-		echo "old .vim/ file renamed to .vim.backup/" ; \
-		mv -f $(VIM_DIR) $(VIM_DIR).backup ; \
-	fi
-	@cp -rf ./.vim $(VIM_DIR)
 
 all-done:
 	@echo "all done"
