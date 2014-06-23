@@ -18,6 +18,9 @@ imap <S-Char-58> <nop>
 nmap <C-l> :e .<cr>
 imap <C-l> <esc>:e .<cr>
 vmap <C-l> <esc>:e .<cr>
+nmap <C-t> :tabnew .<cr>
+imap <C-t> <esc>:tabnew .<cr>
+vmap <C-t> <esc>:tabnew .<cr>
 
 set nocompatible
 set showcmd
