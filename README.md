@@ -1,1 +1,3 @@
 To be continued...
+
+(check /home/ paths in .vimrc!)
