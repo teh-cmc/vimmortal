@@ -3,6 +3,7 @@ ctrlp.vim
 neobundle.vim
 neosnippet-snippets
 neosnippet.vim
+nerdcommenter
 vim-colorschemes
 vim-fugitive
 vim-go

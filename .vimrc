@@ -5,22 +5,33 @@ filetype plugin indent on
 
 colorscheme twilight256
 
+" space saves everything
 nmap <space> :wa!<cr>
+
+" ctrl+c foces quit
 nmap <C-c> :qa!<cr>
 imap <C-c> <esc>:qa!<cr>
 vmap <C-c> <esc>:qa!<cr>
+
+" ctrl+z saves and closes current file
 nmap <C-z> :wq!<cr>
 imap <C-z> <esc>:wq!<cr>
 vmap <C-z> <esc>:wq!<cr>
+" shift+z saves and closes current file
 nmap <S-z> :wqa!<cr>
 vmap <S-z> <esc>:wqa!<cr>
-imap <S-Char-58> <nop>
-nmap <C-l> :e .<cr>
-imap <C-l> <esc>:e .<cr>
-vmap <C-l> <esc>:e .<cr>
+
+" ctrl+t opens a new tab (in nerdtree)
 nmap <C-t> :tabnew .<cr>
 imap <C-t> <esc>:tabnew .<cr>
 vmap <C-t> <esc>:tabnew .<cr>
+
+" ctrl+/ (un)toggles comment
+nmap <C-j> <plug>NERDCommenterToggle
+vmap <C-j> <plug>NERDCommenterToggle
+
+" I don't even remember tbh
+" imap <S-Char-58> <nop>
 
 set nocompatible
 set showcmd
@@ -47,7 +58,6 @@ set laststatus=2
 set lazyredraw
 set linespace=0
 set list
-set number
 set matchtime=3
 set nostartofline
 set numberwidth=4
@@ -84,6 +94,7 @@ NeoBundle 'jimenezrick/vimerl'
 NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'scrooloose/nerdcommenter'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
