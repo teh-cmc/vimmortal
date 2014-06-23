@@ -79,6 +79,8 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'jimenezrick/vimerl'
 NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'terryma/vim-multiple-cursors'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }

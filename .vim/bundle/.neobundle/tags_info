@@ -5,5 +5,7 @@ neosnippet-snippets
 neosnippet.vim
 vim-colorschemes
 vim-fugitive
+vim-go
+vim-multiple-cursors
 vimerl
 vimshell
