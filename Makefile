@@ -14,7 +14,7 @@ BUNDLE_DIR=$(VIM_DIR)/bundle
 
 # RULES #
 
-install: build-bundle-dir install-neobundle paste-config all-done
+install: build-bundle-dir install-neobundle paste-config compile-ycm all-done
 
 build-bundle-dir:
 	@echo "building $(BUNDLE_DIR)..."
@@ -40,6 +40,13 @@ paste-config:
 		mv -f $(VIMRC_PATH) $(VIMRC_PATH).backup ; \
 	fi
 	@cp -f ./.vimrc $(VIMRC_PATH)
+
+compile-ycm:
+	@echo "building $(BUNDLE_DIR)..."
+	@if [ -d $(BUNDLE_DIR)/YouCompleteMe ]; then \
+		cd $(BUNDLE_DIR)/YouCompleteMe ; \
+		./install.sh --clang-completer ; \
+	fi
 
 all-done:
 	@echo "all done"
