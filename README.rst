@@ -11,10 +11,13 @@ Installing
     git clone git@github.com:teh-cmc/vimmortal.git
     make -C vimmortal install
 
+That's it
+
 Requirements
 ------------
 
 - Vim 7.3.584+
+- CMake 2.7+
 
 Content
 -------

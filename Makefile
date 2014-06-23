@@ -53,5 +53,4 @@ compile-ycm:
 	fi
 
 all-done:
-	@echo "all done"
-	@echo "plugins will be installed next time you start vim (PRESS YES!)"
+	@echo "done, vimmortal is ready"
