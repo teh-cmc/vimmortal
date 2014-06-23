@@ -12,6 +12,17 @@ Installing
     cd vimmortal
     make install
 
-::
+Requirements
+------------
 
-`make help` if you need some.
+- Vim 7.3.584+
+
+Content
+-------
+
+Too lazy for this, maybe later
+
+Help
+----
+
+``make help`` if you need some.
