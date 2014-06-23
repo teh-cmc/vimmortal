@@ -20,7 +20,7 @@ build-bundle-dir:
 	@echo "building $(BUNDLE_DIR)..."
 	@if [ -d $(BUNDLE_DIR) ]; then \
 		echo "old bundle/ dir renamed to bundle.backup/" ; \
-		mv $(BUNDLE_DIR) $(BUNDLE_DIR).backup ; \
+		mv -f $(BUNDLE_DIR) $(BUNDLE_DIR).backup ; \
 	fi
 	@mkdir -p $(BUNDLE_DIR)
 
@@ -32,12 +32,12 @@ paste-config:
 	@echo "pasting vim conf..."
 	@if [ -f $(VIMRC_PATH) ]; then \
 		echo "old .vimrc file renamed to .vimrc.backup" ; \
-		mv $(VIMRC_PATH) $(VIMRC_PATH).backup ; \
+		mv -f $(VIMRC_PATH) $(VIMRC_PATH).backup ; \
 	fi
 	@cp -f ./.vimrc $(VIMRC_PATH)
 	@if [ -d $(VIM_DIR) ]; then \
 		echo "old .vim/ file renamed to .vim.backup/" ; \
-		mv $(VIM_DIR) $(VIM_DIR).backup ; \
+		mv -f $(VIM_DIR) $(VIM_DIR).backup ; \
 	fi
 	@cp -rf ./.vim $(VIM_DIR)
 
