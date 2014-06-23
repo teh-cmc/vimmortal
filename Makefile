@@ -8,6 +8,7 @@ help:
 
 # VARS #
 
+VIMRC_PATH=$(HOME)/.vimrc
 VIM_DIR=$(HOME)/.vim
 BUNDLE_DIR=$(VIM_DIR)/bundle
 
@@ -17,9 +18,11 @@ install: build-bundle-dir install-neobundle paste-config all-done
 
 build-bundle-dir:
 	@echo "building $(BUNDLE_DIR)..."
-	@if [ ! -d $(BUNDLE_DIR) ]; then \
-		mkdir -p $(BUNDLE_DIR) ; \
+	@if [ -d $(BUNDLE_DIR) ]; then \
+		echo "old bundle/ dir renamed to bundle.backup/" ; \
+		mv $(BUNDLE_DIR) $(BUNDLE_DIR).backup ; \
 	fi
+	@mkdir -p $(BUNDLE_DIR)
 
 install-neobundle:
 	@echo "installing NeoBundle..."
@@ -27,11 +30,16 @@ install-neobundle:
 
 paste-config:
 	@echo "pasting vim conf..."
-	@if [ ! -f $(HOME)/.vimrc ]; then \
-		@echo "old .vimrc file renamed to .vimrc,backup" ; \
-		mv $(HOME)/.vimrc $(HOME)/.vimrc.backup ; \
+	@if [ -f $(VIMRC_PATH) ]; then \
+		echo "old .vimrc file renamed to .vimrc.backup" ; \
+		mv $(VIMRC_PATH) $(VIMRC_PATH).backup ; \
 	fi
-	cp -f ./.vimrc $(HOME)/.vimrc
+	@cp -f ./.vimrc $(VIMRC_PATH)
+	@if [ -d $(VIM_DIR) ]; then \
+		echo "old .vim/ file renamed to .vim.backup/" ; \
+		mv $(VIM_DIR) $(VIM_DIR).backup ; \
+	fi
+	@cp -rf ./.vim $(VIM_DIR)
 
 all-done:
 	@echo "all done"
