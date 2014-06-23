@@ -43,7 +43,7 @@ paste-config:
 
 download-plugins:
 	@echo "downloading plugins..."
-	@vim -c 'NeoBundleInstall(!)'
+	@. $(BUNDLE_DIR)/neobundle.vim/bin/neoinstall
 
 compile-ycm:
 	@echo "building $(BUNDLE_DIR)..."
