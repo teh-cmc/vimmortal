@@ -9,8 +9,7 @@ Installing
 ::
 
     git clone git@github.com:teh-cmc/vimmortal.git
-    cd vimmortal
-    make install
+    make -C vimmortal install
 
 Requirements
 ------------

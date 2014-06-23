@@ -3,7 +3,7 @@
 help:
 	@echo "General"
 	@echo "======="
-	@echo "help.....................,,,: shows this help"
+	@echo "help........................: shows this help"
 	@echo "install.....................: installs vimmortal"
 
 # VARS #
