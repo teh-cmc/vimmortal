@@ -14,7 +14,7 @@ BUNDLE_DIR=$(VIM_DIR)/bundle
 
 # RULES #
 
-install: build-bundle-dir install-neobundle paste-config compile-ycm all-done
+install: build-bundle-dir install-neobundle paste-config download-plugins compile-ycm all-done
 
 build-bundle-dir:
 	@echo "building $(BUNDLE_DIR)..."
@@ -40,6 +40,10 @@ paste-config:
 		mv -f $(VIMRC_PATH) $(VIMRC_PATH).backup ; \
 	fi
 	@cp -f ./.vimrc $(VIMRC_PATH)
+
+download-plugins:
+	@echo "downloading plugins..."
+	@vim -c 'NeoBundleInstall(!)'
 
 compile-ycm:
 	@echo "building $(BUNDLE_DIR)..."
