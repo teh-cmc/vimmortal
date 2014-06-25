@@ -79,7 +79,7 @@ set expandtab
 set shiftwidth=4
 set listchars=tab:›-,trail:•,extends:#,nbsp:.
 
-autocmd FileType go set expandtab
+autocmd FileType go set noexpandtab
 
 "NeoBundle Scripts-----------------------------
 if has('vim_starting')
