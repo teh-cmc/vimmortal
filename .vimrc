@@ -28,7 +28,12 @@ nmap <C-t> :tabnew .<cr>
 imap <C-t> <esc>:tabnew .<cr>
 vmap <C-t> <esc>:tabnew .<cr>
 
-" ctrl+/ (un)toggles comment
+" tl -> tabnext
+nmap tl :tabnext<cr>
+" th -> tabprevious
+nmap th :tabprevious<cr>
+
+" ctrl+j (un)toggles comment
 nmap <C-j> <plug>NERDCommenterToggle
 vmap <C-j> <plug>NERDCommenterToggle
 
@@ -49,7 +54,7 @@ set autoindent
 set smartindent
 set autochdir
 set backspace=indent,eol,start
-set clipboard+=unnamed
+set clipboard+=autoselect
 set noerrorbells
 set wildmenu
 set hlsearch
@@ -65,11 +70,16 @@ set nostartofline
 set numberwidth=4
 set report=0
 set ruler
-set listchars=tab:>-,trail:-
 set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v][vimmortal!]
-set tabstop=4
 set tabpagemax=99
 
+" tab stuff
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set listchars=tab:›-,trail:•,extends:#,nbsp:.
+
+autocmd FileType go set expandtab
 
 "NeoBundle Scripts-----------------------------
 if has('vim_starting')
