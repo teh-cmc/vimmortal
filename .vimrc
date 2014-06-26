@@ -79,7 +79,10 @@ set expandtab
 set shiftwidth=4
 set listchars=tab:›-,trail:•,extends:#,nbsp:.
 
+" do not expand tabs in golang
 autocmd FileType go set noexpandtab
+" trim trailing whitespaces in specified languages
+autocmd FileType c,cpp,erlang,sh,python,ruby,java autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 "NeoBundle Scripts-----------------------------
 if has('vim_starting')
