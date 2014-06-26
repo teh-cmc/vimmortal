@@ -82,7 +82,7 @@ set listchars=tab:›-,trail:•,extends:#,nbsp:.
 " do not expand tabs in golang
 autocmd FileType go set noexpandtab
 " trim trailing whitespaces in specified languages
-autocmd FileType c,cpp,erlang,sh,python,ruby,java autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType c,cpp,erlang,sh,conf,python,ruby,java autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 "NeoBundle Scripts-----------------------------
 if has('vim_starting')
@@ -110,6 +110,7 @@ NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'godlygeek/tabular'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
