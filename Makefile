@@ -22,12 +22,13 @@ build-bundle-dir:
 		echo "old .vim/ file renamed to .vim.backup/" ; \
 		mv -f $(VIM_DIR) $(VIM_DIR).backup ; \
 	fi
-	@cp -rf ./.vim $(VIM_DIR)
+	@mkdir -p $(VIM_DIR)
 	@if [ -d $(BUNDLE_DIR) ]; then \
 		echo "old bundle/ dir renamed to bundle.backup/" ; \
 		mv -f $(BUNDLE_DIR) $(BUNDLE_DIR).backup ; \
 	fi
 	@mkdir -p $(BUNDLE_DIR)
+	@ln -s $(BUNDLE_DIR)/vim-colorschemes/colors/ $(VIM_DIR)/colors
 
 install-neobundle:
 	@echo "installing NeoBundle..."
