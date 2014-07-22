@@ -54,7 +54,7 @@ set autoindent
 set smartindent
 set autochdir
 set backspace=indent,eol,start
-set clipboard+=autoselect
+set clipboard+=autoselectplus
 set noerrorbells
 set wildmenu
 set hlsearch
@@ -111,6 +111,7 @@ NeoBundle 'fatih/vim-go'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'godlygeek/tabular'
+NeoBundle 'osyo-manga/vim-over'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
