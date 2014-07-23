@@ -107,11 +107,14 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'jimenezrick/vimerl'
 NeoBundle 'Valloric/YouCompleteMe'
+" DO NOT FORGET TO CONFIGURE GOCODE IF YOU USE SUBPACKAGES
+" ~/.vim-go/gocode set autobuild true
 NeoBundle 'fatih/vim-go'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'osyo-manga/vim-over'
+NeoBundle 'bling/vim-airline'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
