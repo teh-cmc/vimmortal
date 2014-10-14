@@ -244,3 +244,31 @@ filetype plugin indent on
 NeoBundleCheck
 "End NeoBundle Scripts-------------------------
 
+"YCM SETTINGS
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+
+"VIM-GO SETTINGS
+let g:play_browser_command = 'google-chrome'
+let g:go_play_open_browser = 1
+let g:go_auto_type_info = 1
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_options = ''
+let g:go_fmt_fail_silently = 0
+let g:go_doc_keywordprg_enabled = 1
+let g:go_doc_command = "godoc"
+let g:go_doc_options = ''
+let g:go_bin_path = "~/.vim-go"
+let g:go_snippet_engine = "neosnippet"
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_chan_whitespace_error = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
