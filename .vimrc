@@ -86,6 +86,9 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " do not expand tabs in golang
 autocmd FileType go set noexpandtab
 
+" treat underscores as word breaks
+set iskeyword-=_
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " THE FOLLOWING IS SHAMELESSLY STOLEN FROM SPF13'S AWESOME VIMRC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
