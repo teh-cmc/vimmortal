@@ -1,93 +1,89 @@
 """ Vimmortal 2k14 gros!
 """ THE <leader> KEY IS ','!
 
-set nocompatible
-filetype plugin on
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGINS AND STUFF BELOW
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NeoBundle Scripts-----------------------------
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+
+  " Required:
+  set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
+endif
+
+" Required:
+call neobundle#begin(expand('$HOME/.vim/bundle'))
+
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" My Bundles here:
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'jimenezrick/vimerl'
+NeoBundle 'Valloric/YouCompleteMe'
+" DO NOT FORGET TO CONFIGURE GOCODE IF YOU USE SUBPACKAGES
+" ~/.vim-go/gocode set autobuild true
+NeoBundle 'fatih/vim-go'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'osyo-manga/vim-over'
+NeoBundle 'bling/vim-airline'
+
+" You can specify revision/branch/tag.
+NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+
+" Required:
+call neobundle#end()
+
+" Required:
 filetype plugin indent on
 
-syntax on
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
+NeoBundleCheck
+"End NeoBundle Scripts-------------------------
 
-colorscheme twilight256
+"YCM SETTINGS
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
 
-" space saves everything
-nmap <space> :wa!<cr>
+"VIM-GO SETTINGS
+let g:play_browser_command = 'google-chrome'
+let g:go_play_open_browser = 1
+let g:go_auto_type_info = 1
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_options = ''
+let g:go_fmt_fail_silently = 0
+let g:go_doc_keywordprg_enabled = 1
+let g:go_doc_command = "godoc"
+let g:go_doc_options = ''
+let g:go_bin_path = expand("~/.vim-go")
+let g:go_snippet_engine = "neosnippet"
+let g:go_highlight_array_whitespace_error = 1
+let g:go_highlight_chan_whitespace_error = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_space_tab_error = 1
+let g:go_highlight_trailing_whitespace_error = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGINS AND STUFF ABOVE
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" ctrl+c forces to quit without saving
-nmap <C-c> :qa!<cr>
-imap <C-c> <esc>:qa!<cr>
-vmap <C-c> <esc>:qa!<cr>
-
-" ctrl+z saves and closes current file
-nmap <C-z> :wq!<cr>
-imap <C-z> <esc>:wq!<cr>
-vmap <C-z> <esc>:wq!<cr>
-" shift+z saves and closes all files
-nmap <S-z> :wqa!<cr>
-vmap <S-z> <esc>:wqa!<cr>
-
-" ctrl+t opens a new tab (in nerdtree)
-nmap <C-t> :tabnew .<cr>
-imap <C-t> <esc>:tabnew .<cr>
-vmap <C-t> <esc>:tabnew .<cr>
-
-" tl -> tabnext
-nmap tl :tabnext<cr>
-" th -> tabprevious
-nmap th :tabprevious<cr>
-
-" ctrl+j (un)toggles comment
-nmap <C-j> <plug>NERDCommenterToggle
-vmap <C-j> <plug>NERDCommenterToggle
-
-let mapleader = ','
-
-set showcmd
-set showmatch
-set ignorecase
-set smartcase
-set incsearch
-set autowrite
-set mouse=a
-set number
-set autoindent
-set smartindent
-set autochdir
-set backspace=indent,eol,start
-set noerrorbells
-set wildmenu
-set hlsearch
-set wildmode=list:longest
-set cursorline
-set cursorcolumn
-set laststatus=2
-set lazyredraw
-set linespace=0
-set list
-set matchtime=3
-set nostartofline
-set numberwidth=4
-set report=0
-set ruler
-set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v][vimmortal!]
-set tabpagemax=99
-
-" tab stuff
-set tabstop=4
-set expandtab
-set shiftwidth=4
-set listchars=tab:›-,trail:•,extends:#,nbsp:.
-
-" reopen at last location
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" uncomment to be warned when > 80 chars
-":au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-
-" do not expand tabs in golang
-autocmd FileType go set noexpandtab
-
-" treat underscores as word breaks
-set iskeyword-=_
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " THE FOLLOWING IS SHAMELESSLY STOLEN FROM SPF13'S AWESOME VIMRC
@@ -201,77 +197,97 @@ endif
 " THE ABOVE IS SHAMELESSLY STOLEN FROM SPF13'S AWESOME VIMRC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  set nocompatible               " Be iMproved
 
-  " Required:
-  set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
-endif
-
-" Required:
-call neobundle#begin(expand('$HOME/.vim/bundle'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" My Bundles here:
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'jimenezrick/vimerl'
-NeoBundle 'Valloric/YouCompleteMe'
-" DO NOT FORGET TO CONFIGURE GOCODE IF YOU USE SUBPACKAGES
-" ~/.vim-go/gocode set autobuild true
-NeoBundle 'fatih/vim-go'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'bling/vim-airline'
-
-" You can specify revision/branch/tag.
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
-
-" Required:
-call neobundle#end()
-
-" Required:
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RANDOM STUFF THAT MUST BE LOADED LAST BELOW
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+filetype plugin on
 filetype plugin indent on
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
+syntax on
 
-"YCM SETTINGS
-let g:ycm_complete_in_comments = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_seed_identifiers_with_syntax = 1
+colorscheme twilight256
 
-"VIM-GO SETTINGS
-let g:play_browser_command = 'google-chrome'
-let g:go_play_open_browser = 1
-let g:go_auto_type_info = 1
-let g:go_fmt_autosave = 1
-let g:go_fmt_command = "goimports"
-let g:go_fmt_options = ''
-let g:go_fmt_fail_silently = 0
-let g:go_doc_keywordprg_enabled = 1
-let g:go_doc_command = "godoc"
-let g:go_doc_options = ''
-let g:go_bin_path = expand("~/.vim-go")
-let g:go_snippet_engine = "neosnippet"
-let g:go_highlight_array_whitespace_error = 1
-let g:go_highlight_chan_whitespace_error = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_space_tab_error = 1
-let g:go_highlight_trailing_whitespace_error = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 1
+" space saves everything
+nmap <space> :wa!<cr>
+
+" ctrl+c forces to quit without saving
+nmap <C-c> :qa!<cr>
+imap <C-c> <esc>:qa!<cr>
+vmap <C-c> <esc>:qa!<cr>
+
+" ctrl+z saves and closes current file
+nmap <C-z> :wq!<cr>
+imap <C-z> <esc>:wq!<cr>
+vmap <C-z> <esc>:wq!<cr>
+" shift+z saves and closes all files
+nmap <S-z> :wqa!<cr>
+vmap <S-z> <esc>:wqa!<cr>
+
+" ctrl+t opens a new tab (in nerdtree)
+nmap <C-t> :tabnew .<cr>
+imap <C-t> <esc>:tabnew .<cr>
+vmap <C-t> <esc>:tabnew .<cr>
+
+" tl -> tabnext
+nmap tl :tabnext<cr>
+" th -> tabprevious
+nmap th :tabprevious<cr>
+
+" ctrl+j (un)toggles comment
+nmap <C-j> <plug>NERDCommenterToggle
+vmap <C-j> <plug>NERDCommenterToggle
+
+let mapleader = ','
+
+set showcmd
+set showmatch
+set ignorecase
+set smartcase
+set incsearch
+set autowrite
+set mouse=a
+set number
+set autoindent
+set smartindent
+set autochdir
+set backspace=indent,eol,start
+set noerrorbells
+set wildmenu
+set hlsearch
+set wildmode=list:longest
+set cursorline
+set cursorcolumn
+set laststatus=2
+set lazyredraw
+set linespace=0
+set list
+set matchtime=3
+set nostartofline
+set numberwidth=4
+set report=0
+set ruler
+set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v][vimmortal!]
+set tabpagemax=99
+
+" tab stuff
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set listchars=tab:›-,trail:•,extends:#,nbsp:.
+
+" reopen at last location
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" uncomment to be warned when > 80 chars
+":au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+
+" do not expand tabs in golang
+autocmd FileType go set noexpandtab
+
+" treat underscores as word breaks
+set iskeyword-=_
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RANDOM STUFF THAT MUST BE LOADED LAST ABOVE
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
