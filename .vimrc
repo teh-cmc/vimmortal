@@ -37,6 +37,8 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'kshenoy/vim-signature'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
@@ -69,7 +71,7 @@ let g:go_fmt_fail_silently = 0
 let g:go_doc_keywordprg_enabled = 1
 let g:go_doc_command = "godoc"
 let g:go_doc_options = ''
-let g:go_bin_path = expand("~/.vim-go")
+let g:go_bin_path = expand("$GOPATH/bin")
 let g:go_snippet_engine = "neosnippet"
 let g:go_highlight_array_whitespace_error = 1
 let g:go_highlight_chan_whitespace_error = 1
@@ -80,6 +82,7 @@ let g:go_highlight_operators = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_structs = 1
+let g:go_highlight_build_constraints = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PLUGINS AND STUFF ABOVE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -114,7 +117,7 @@ set splitright                  " Puts new vsplit windows to the right of the cu
 set splitbelow                  " Puts new split windows to the bottom of the current
 set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 set scrolljump=5                " Lines to scroll when cursor leaves screen
-set scrolloff=3                 " Minimum lines to keep above and below cursor
+set scrolloff=10                 " Minimum lines to keep above and below cursor
 
 "set backup                  " Backups are nice ...
 if has('persistent_undo')
@@ -139,7 +142,7 @@ vnoremap . :normal .<CR>
 cmap w!! w !sudo tee % >/dev/null
 
 " trim trailing whitespaces in specified languages
-autocmd FileType vim,erlang,sh,conf,ruby,java,c,cpp,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
