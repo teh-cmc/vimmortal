@@ -30,7 +30,7 @@ NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'jimenezrick/vimerl'
 NeoBundle 'Valloric/YouCompleteMe'
 " DO NOT FORGET TO CONFIGURE GOCODE IF YOU USE SUBPACKAGES
-" ~/.vim-go/gocode set autobuild true
+" $GOPATH/bin/gocode set autobuild true
 NeoBundle 'fatih/vim-go'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'scrooloose/nerdcommenter'
@@ -39,6 +39,8 @@ NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'vim-scripts/VisIncr'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
@@ -142,7 +144,7 @@ vnoremap . :normal .<CR>
 cmap w!! w !sudo tee % >/dev/null
 
 " trim trailing whitespaces in specified languages
-autocmd FileType sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType obj,sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
@@ -273,6 +275,9 @@ set report=0
 set ruler
 set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v][vimmortal!]
 set tabpagemax=99
+
+" ignore case for commands
+:set fileignorecase
 
 " tab stuff
 set tabstop=4
