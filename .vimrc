@@ -350,6 +350,7 @@ au FileType go nmap <leader>l <Plug>(go-metalinter)
 au FileType go nmap <leader>d <Plug>(go-doc-tab)
 au FileType go nmap <leader><CR> <Plug>(go-def-tab)
 au FileType go nmap <leader>i <Plug>(go-implements)
+au FileType go nmap <leader>x <Plug>(go-describe)
 
 endif
 
