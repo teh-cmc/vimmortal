@@ -145,7 +145,8 @@ vmap <C-t> <esc>:tabnew .<cr>
 nmap tl :tabnext<cr>
 " th -> tabprevious
 nmap th :tabprevious<cr>
-
+map <C-h> :lp<CR>
+map <C-l> :lne<CR>
 
 """
 " Behavior
@@ -216,7 +217,6 @@ call neobundle#end()
 filetype plugin indent on
 
 NeoBundleCheck
-
 
 """""""""""""""""""""""""
 " Shougo/neosnippet.vim "
