@@ -1,6 +1,7 @@
 """ Vimmortal 2k14 gros!
 """ THE <leader> KEY IS ','!
 
+let mapleader = ','
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -41,6 +42,9 @@ NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'kshenoy/vim-signature'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'vim-scripts/VisIncr'
+
+" rust stuff
+NeoBundle 'rust-lang/rust.vim'
 
 " You can specify revision/branch/tag.
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
@@ -144,7 +148,7 @@ vnoremap . :normal .<CR>
 cmap w!! w !sudo tee % >/dev/null
 
 " trim trailing whitespaces in specified languages
-autocmd FileType obj,sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType obj,sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,rust,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
@@ -244,8 +248,6 @@ nmap th :tabprevious<cr>
 nmap <C-j> <plug>NERDCommenterToggle
 vmap <C-j> <plug>NERDCommenterToggle
 
-let mapleader = ','
-
 set showcmd
 set showmatch
 set ignorecase
@@ -291,8 +293,8 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " uncomment to be warned when > 80 chars
 ":au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 
-" do not expand tabs in golang
-autocmd FileType go set noexpandtab
+" do not expand tabs in golang and rust
+autocmd FileType go,rust set noexpandtab
 
 " treat underscores as word breaks
 set iskeyword-=_
