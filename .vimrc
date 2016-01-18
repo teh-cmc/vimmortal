@@ -141,10 +141,9 @@ vmap <S-z> <esc>:wqa!<cr>
 nmap <C-t> :tabnew .<cr>
 imap <C-t> <esc>:tabnew .<cr>
 vmap <C-t> <esc>:tabnew .<cr>
-" tl -> tabnext
 nmap tl :tabnext<cr>
-" th -> tabprevious
 nmap th :tabprevious<cr>
+nmap tq :tabclose<cr>
 map <C-h> :lp<CR>
 map <C-l> :lne<CR>
 
@@ -334,9 +333,11 @@ let g:go_highlight_interfaces = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_string_spellcheck = 0
 let g:go_autodetect_gopath = 1
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
-let g:go_loclist_height = 0
+" Remember to `gometalinter --install --update`
+let g:go_metalinter_enabled = ['vet', 'vetshadow', 'golint', 'errcheck', 'gotype', 'structcheck', 'deadcode', 'dupl', 'interfacer']
+let g:go_metalinter_autosave = 0
+let g:go_metalinter_autosave_enabled = ['vet', 'vetshadow', 'golint', 'errcheck']
+let g:go_loclist_height = 10
 
 """
 " Mappings
