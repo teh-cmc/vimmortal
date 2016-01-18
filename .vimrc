@@ -338,6 +338,19 @@ let g:go_metalinter_autosave = 1
 let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
 let g:go_loclist_height = 0
 
+"""
+" Mappings
+"""
+
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+au FileType go nmap <leader>l <Plug>(go-metalinter)
+au FileType go nmap <leader>d <Plug>(go-doc-tab)
+au FileType go nmap <leader><CR> <Plug>(go-def-tab)
+au FileType go nmap <leader>i <Plug>(go-implements)
+
 endif
 
 """"""""""""""""""""""""""""""""
