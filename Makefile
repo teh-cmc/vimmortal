@@ -49,5 +49,5 @@ download-plugins:
 compile-ycm:
 	@if [ -d $(BUNDLE_DIR)/YouCompleteMe ]; then \
 		cd $(BUNDLE_DIR)/YouCompleteMe ; \
-		bash install.sh --clang-completer --gocode-completer --racer-completer --omnisharp-completer --tern-completer; \
+		bash install.sh --clang-completer --gocode-completer --racer-completer ; \
 	fi
