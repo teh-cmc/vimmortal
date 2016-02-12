@@ -9,7 +9,7 @@ Installing
 ::
 
     git clone git@github.com:teh-cmc/vimmortal.git
-    make -C vimmortal install
+    make -C vimmortal install compile-ycm
 
 That's it
 
