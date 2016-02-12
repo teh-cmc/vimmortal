@@ -14,7 +14,7 @@ BUNDLE_DIR=$(VIM_DIR)/bundle
 
 # RULES #
 
-install: build-bundle-dir install-neobundle paste-config download-plugins compile-ycm all-done
+install: build-bundle-dir install-neobundle paste-config download-plugins
 
 build-bundle-dir:
 	@echo "building $(BUNDLE_DIR)..."
@@ -50,8 +50,6 @@ compile-ycm:
 	@echo "building $(BUNDLE_DIR)..."
 	@if [ -d $(BUNDLE_DIR)/YouCompleteMe ]; then \
 		cd $(BUNDLE_DIR)/YouCompleteMe ; \
+		git submodule update --init --recursive ; \
 		bash install.sh --clang-completer --gocode-completer --racer-completer ; \
 	fi
-
-all-done:
-	@echo "done, vimmortal is ready"
