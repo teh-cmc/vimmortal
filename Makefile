@@ -47,7 +47,6 @@ download-plugins:
 	@. $(BUNDLE_DIR)/neobundle.vim/bin/neoinstall
 
 compile-ycm:
-	@echo "building $(BUNDLE_DIR)..."
 	@if [ -d $(BUNDLE_DIR)/YouCompleteMe ]; then \
 		cd $(BUNDLE_DIR)/YouCompleteMe ; \
 		git submodule update --init --recursive ; \
