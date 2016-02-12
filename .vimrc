@@ -193,8 +193,6 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 
 NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'fatih/vim-go'
@@ -210,6 +208,7 @@ NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'vim-scripts/VisIncr'
+NeoBundle 'sirver/ultisnips'
 
 call neobundle#end()
 
@@ -217,19 +216,19 @@ filetype plugin indent on
 
 NeoBundleCheck
 
-"""""""""""""""""""""""""
-" Shougo/neosnippet.vim "
-"""""""""""""""""""""""""
+""""""""""""""""""""
+" sirver/ultisnips "
+""""""""""""""""""""
 
-if isdirectory(expand("~/.vim/bundle/neosnippet.vim/"))
+if isdirectory(expand("~/.vim/bundle/ultisnips/"))
 
-endif
+"""
+" Mappings
+"""
 
-""""""""""""""""""""""""""""""
-" Shougo/neosnippet-snippets "
-""""""""""""""""""""""""""""""
-
-if isdirectory(expand("~/.vim/bundle/neosnippet-snippets/"))
+let g:UltiSnipsExpandTrigger="<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<c-e>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 endif
 
@@ -295,6 +294,7 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_use_ultisnips_completer = 1
 
 endif
 
@@ -316,10 +316,10 @@ let g:go_fmt_command = "goimports"
 let g:go_fmt_options = ''
 let g:go_fmt_fail_silently = 0
 let g:go_doc_keywordprg_enabled = 1
-let g:go_doc_command = "go doc"
+let g:go_doc_command = "godoc"
 let g:go_doc_options = ''
 let g:go_bin_path = expand("$GOPATH/bin")
-let g:go_snippet_engine = "neosnippet"
+let g:go_snippet_engine = "ultisnips"
 let g:go_highlight_array_whitespace_error = 1
 let g:go_highlight_chan_whitespace_error = 1
 let g:go_highlight_extra_types = 1
