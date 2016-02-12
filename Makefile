@@ -50,7 +50,7 @@ compile-ycm:
 	@echo "building $(BUNDLE_DIR)..."
 	@if [ -d $(BUNDLE_DIR)/YouCompleteMe ]; then \
 		cd $(BUNDLE_DIR)/YouCompleteMe ; \
-		./install.sh --clang-completer ; \
+		bash install.sh --clang-completer --gocode-completer --racer-completer ; \
 	fi
 
 all-done:
