@@ -12,9 +12,9 @@ VIMRC_PATH=$(HOME)/.vimrc
 VIM_DIR=$(HOME)/.vim
 BUNDLE_DIR=$(VIM_DIR)/bundle
 
-# RULES #
+# TARGETS #
 
-install: build-bundle-dir install-neobundle paste-config download-plugins
+install: build-bundle-dir install-neobundle paste-config download-plugins compile-ycm
 
 build-bundle-dir:
 	@echo "building $(BUNDLE_DIR)..."
@@ -49,6 +49,5 @@ download-plugins:
 compile-ycm:
 	@if [ -d $(BUNDLE_DIR)/YouCompleteMe ]; then \
 		cd $(BUNDLE_DIR)/YouCompleteMe ; \
-		git submodule update --init --recursive ; \
-		bash install.sh --clang-completer --gocode-completer --racer-completer ; \
+		bash install.sh --clang-completer --gocode-completer --racer-completer --omnisharp-completer --tern-completer; \
 	fi
