@@ -1,9 +1,11 @@
-""""""""""""""""""""""
+"""""""""""""""""""""
 """ Vimmortal v2.0 """
 """"""""""""""""""""""
 
 set nocompatible
 colorscheme twilight256
+
+set mouse=a
 
 """""""
 " Vim "
@@ -56,6 +58,8 @@ set iskeyword-=.
 set iskeyword-=#
 " '-' is an end of word designator
 set iskeyword-=-
+" '_' is an end of word designator
+set iskeyword-=_
 " Prevents inserting two spaces after punctuation on a join (J)
 set nojoinspaces
 " Puts new vsplit windows to the right of the current
@@ -72,8 +76,8 @@ set ignorecase
 set smartcase
 set incsearch
 set autowrite
-set mouse=a
 set number
+set relativenumber
 set autoindent
 set smartindent
 set autochdir
@@ -93,7 +97,7 @@ set nostartofline
 set numberwidth=4
 set report=0
 set ruler
-set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v][vimmortal!]
+"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v][vimmortal!]
 set tabpagemax=99
 " Ignore case for commands
 :set fileignorecase
@@ -101,8 +105,6 @@ set tabstop=4
 set expandtab
 set shiftwidth=4
 set listchars=tab:›-,trail:•,extends:#,nbsp:.
-" treat underscores as word breaks
-set iskeyword-=_
 
 """
 " Mappings
@@ -146,6 +148,10 @@ nmap th :tabprevious<cr>
 nmap tq :tabclose<cr>
 map <C-h> :lp<CR>
 map <C-l> :lne<CR>
+nmap <C-_> o<CR>// -----------------------------------------------------------------------------<CR><CR><esc>
+imap <C-_> // -----------------------------------------------------------------------------<CR><CR>
+vmap <C-_> <esc>o<CR>// -----------------------------------------------------------------------------<CR><CR>
+
 
 """
 " Behavior
@@ -169,7 +175,7 @@ autocmd FileType haskell setlocal commentstring=--\ %s
 " Workaround broken colour highlighting in Haskell
 autocmd FileType haskell setlocal nospell
 " Trim trailing whitespaces in specified languages
-autocmd FileType obj,sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,rust,php,javascript,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType obj,sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,rust,php,javascript,js,json,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 function! StripTrailingWhitespace()
     let _s=@/
     let l = line(".")
@@ -194,6 +200,10 @@ NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'Valloric/YouCompleteMe'
+"NeoBundle 'Shougo/deoplete.nvim'
+"NeoBundle 'zchee/deoplete-go', {'build': {'unix': 'make'}}
+"NeoBundle 'Shougo/neocomplete.vim'
+"NeoBundle 'ervandew/supertab'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'flazz/vim-colorschemes'
@@ -205,10 +215,15 @@ NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'tpope/vim-fugitive'
+"NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'vim-scripts/VisIncr'
 NeoBundle 'sirver/ultisnips'
+NeoBundle 'AndrewRadev/splitjoin.vim'
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'kien/rainbow_parentheses.vim'
+NeoBundle 'tpope/vim-unimpaired'
+"NeoBundle 'vim-syntastic/syntastic'
 
 call neobundle#end()
 
@@ -280,6 +295,44 @@ if isdirectory(expand("~/.vim/bundle/vimerl/"))
 
 endif
 
+""""""""""""""""""""""""
+" Shougo/deoplete.nvim "
+""""""""""""""""""""""""
+
+if isdirectory(expand("~/.vim/bundle/deoplete.nvim/"))
+
+"""
+" Settings
+"""
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_delay = 32
+let g:deoplete#auto_refresh_delay = 32
+
+" deoplete tab-complete
+"inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+endif
+
+""""""""""""""""""""""""
+" Shougo/neocomplete.nvim "
+""""""""""""""""""""""""
+
+if isdirectory(expand("~/.vim/bundle/neocomplete.vim/"))
+
+"""
+" Settings
+"""
+
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#auto_complete_delay = 32
+let g:neocomplete#auto_refresh_delay = 32
+
+" neocomplete tab-complete
+"inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+endif
+
 """"""""""""""""""""""""""
 " Valloric/YouCompleteMe "
 """"""""""""""""""""""""""
@@ -291,10 +344,16 @@ if isdirectory(expand("~/.vim/bundle/YouCompleteMe/"))
 """
 
 let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_use_ultisnips_completer = 1
+let g:ycm_min_num_of_chars_for_completion = 1
+
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 endif
 
@@ -310,11 +369,11 @@ if isdirectory(expand("~/.vim/bundle/vim-go/"))
 
 let g:go_play_browser_command = 'google-chrome'
 let g:go_play_open_browser = 1
-let g:go_auto_type_info = 1
+let g:go_auto_type_info = 0
 let g:go_fmt_autosave = 1
 let g:go_fmt_command = "goimports"
 let g:go_fmt_options = ''
-let g:go_fmt_fail_silently = 0
+let g:go_fmt_fail_silently = 1
 let g:go_doc_keywordprg_enabled = 1
 let g:go_doc_command = "godoc"
 let g:go_doc_options = ''
@@ -332,12 +391,21 @@ let g:go_highlight_structs = 1
 let g:go_highlight_interfaces = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_string_spellcheck = 0
+let g:go_highlight_types = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_format_strings = 1
 let g:go_autodetect_gopath = 1
 " Remember to `gometalinter --install --update`
 let g:go_metalinter_enabled = ['vet', 'vetshadow', 'golint', 'errcheck', 'gotype', 'structcheck', 'deadcode', 'dupl', 'interfacer']
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = ['vet', 'vetshadow', 'golint', 'errcheck']
-let g:go_loclist_height = 10
+let g:go_loclist_height = 0
+let g:go_auto_sameids = 1
+let g:go_updatetime = 100
+let g:go_alternate_mode = "vi"
+let g:go_gocode_unimported_packages = 1
+let g:go_list_type = "quickfix"
+let g:go_def_mode = 'guru'
 
 """
 " Mappings
@@ -351,7 +419,11 @@ au FileType go nmap <leader>l <Plug>(go-metalinter)
 au FileType go nmap <leader>d <Plug>(go-doc-tab)
 au FileType go nmap <leader><CR> <Plug>(go-def-tab)
 au FileType go nmap <leader>i <Plug>(go-implements)
+au FileType go nmap <leader><leader> <Plug>(go-info)
 au FileType go nmap <leader>x <Plug>(go-describe)
+au FileType go nmap <leader>c <Plug>(go-channelpeers)
+
+au FileType go nnoremap <silent> <leader>g :GoDeclsDir<CR>
 
 endif
 
@@ -459,5 +531,43 @@ endif
 """"""""""""""""""""""
 
 if isdirectory(expand("~/.vim/bundle/rust.vim/"))
+
+endif
+
+""""""""""""""""""""""""""""""""
+" kien/rainbow_parentheses.vim "
+""""""""""""""""""""""""""""""""
+
+if isdirectory(expand("~/.vim/bundle/rainbow_parentheses.vim"))
+
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+endif
+
+"""""""""""""""""""""""""""
+" vim-syntastic/syntastic "
+"""""""""""""""""""""""""""
+
+if isdirectory(expand("~/.vim/bundle/syntastic"))
+
+"""
+" Settings
+"""
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_enable_go_checker = 1
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 endif
