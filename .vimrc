@@ -224,6 +224,7 @@ NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'tpope/vim-unimpaired'
 "NeoBundle 'vim-syntastic/syntastic'
+NeoBundle 'peterhoeg/vim-qml'
 
 call neobundle#end()
 
