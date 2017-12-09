@@ -1,9 +1,13 @@
-"""""""""""""""""""""
-""" Vimmortal v2.0 """
+""""""""""""""""""""""
+""" Vimmortal v3.0 """
 """"""""""""""""""""""
 
 set nocompatible
+set background=dark
 colorscheme twilight256
+
+if has("gui_vimr")
+endif
 
 set mouse=a
 
@@ -52,14 +56,6 @@ set virtualedit=onemore
 set history=1000
 " Allow buffer switching without saving
 set hidden
-" '.' is an end of word designator
-set iskeyword-=.
-" '#' is an end of word designator
-set iskeyword-=#
-" '-' is an end of word designator
-set iskeyword-=-
-" '_' is an end of word designator
-set iskeyword-=_
 " Prevents inserting two spaces after punctuation on a join (J)
 set nojoinspaces
 " Puts new vsplit windows to the right of the current
@@ -69,7 +65,7 @@ set splitbelow
 " Lines to scroll when cursor leaves screen
 set scrolljump=1
 " Minimum lines to keep above and below cursor
-set scrolloff=10
+set scrolloff=5
 set showcmd
 set showmatch
 set ignorecase
@@ -80,7 +76,7 @@ set number
 set relativenumber
 set autoindent
 set smartindent
-set autochdir
+" set autochdir
 set backspace=indent,eol,start
 set noerrorbells
 set wildmenu
@@ -105,6 +101,8 @@ set tabstop=4
 set expandtab
 set shiftwidth=4
 set listchars=tab:›-,trail:•,extends:#,nbsp:.
+set textwidth=80
+set colorcolumn=+1
 
 """
 " Mappings
@@ -140,9 +138,9 @@ vmap <C-z> <esc>:wq!<cr>
 nmap <S-z> :wqa!<cr>
 vmap <S-z> <esc>:wqa!<cr>
 " ctrl+t opens a new tab (in nerdtree)
-nmap <C-t> :tabnew .<cr>
-imap <C-t> <esc>:tabnew .<cr>
-vmap <C-t> <esc>:tabnew .<cr>
+"nmap <C-t> :tabnew .<cr>
+"imap <C-t> <esc>:tabnew .<cr>
+"vmap <C-t> <esc>:tabnew .<cr>
 nmap tl :tabnext<cr>
 nmap th :tabprevious<cr>
 nmap tq :tabclose<cr>
@@ -151,6 +149,17 @@ map <C-l> :lne<CR>
 nmap <C-_> o<CR>// -----------------------------------------------------------------------------<CR><CR><esc>
 imap <C-_> // -----------------------------------------------------------------------------<CR><CR>
 vmap <C-_> <esc>o<CR>// -----------------------------------------------------------------------------<CR><CR>
+
+" fzf & ag stuff
+set rtp+=/usr/local/opt/fzf
+nmap ;b :Buffers<CR>
+nmap ;f :Files<CR>
+nmap ;<S-f> :Files ~/dev<CR>
+nmap ;t :Tags<CR>
+nmap ;a :Ag<CR>
+nnoremap <silent> ;w :Ag <C-R><C-W><CR>
+nmap ;; :NERDTreeToggle ~/dev<CR>
+set grepprg=ag\ --nogroup\ --nocolor\ --silent
 
 
 """
@@ -165,17 +174,20 @@ au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 " Be warned when > 80 chars
 ":au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 
+autocmd filetype crontab setlocal nobackup nowritebackup
+
 " Do not expand tabs in specified languages
-autocmd FileType go,rust set noexpandtab
+autocmd FileType go,rust,snes set noexpandtab
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell setlocal expandtab shiftwidth=2 softtabstop=2
 autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+au BufNewFile,BufRead *.asm,*.inc set filetype=snes
 " Workaround vim-commentary for Haskell
 autocmd FileType haskell setlocal commentstring=--\ %s
 " Workaround broken colour highlighting in Haskell
 autocmd FileType haskell setlocal nospell
 " Trim trailing whitespaces in specified languages
-autocmd FileType obj,sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,rust,php,javascript,js,json,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType snes,obj,sql,vim,erlang,sh,conf,ruby,java,c,cpp,go,rust,php,javascript,js,json,python,twig,xml,yml,perl autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 function! StripTrailingWhitespace()
     let _s=@/
     let l = line(".")
@@ -196,41 +208,61 @@ endif
 call neobundle#begin(expand('$HOME/.vim/bundle'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
+"NeoBundle 'Shougo/vimshell', { 'rev' : '3787e5' }
 
-NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'Valloric/YouCompleteMe'
 "NeoBundle 'Shougo/deoplete.nvim'
-"NeoBundle 'zchee/deoplete-go', {'build': {'unix': 'make'}}
 "NeoBundle 'Shougo/neocomplete.vim'
 "NeoBundle 'ervandew/supertab'
+"NeoBundle 'kien/ctrlp.vim'
+"NeoBundle 'kshenoy/vim-signature'
+"NeoBundle 'scrooloose/nerdcommenter'
+"NeoBundle 'tpope/vim-fugitive'
+"NeoBundle 'vim-syntastic/syntastic'
+"NeoBundle 'zchee/deoplete-go', {'build': {'unix': 'make'}}
+NeoBundle 'ARM9/snes-syntax-vim'
+NeoBundle 'AndrewRadev/splitjoin.vim'
+" NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'jiangmiao/auto-pairs'
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'jimenezrick/vimerl'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'kshenoy/vim-signature'
-NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'rust-lang/rust.vim'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'terryma/vim-multiple-cursors'
-"NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'vim-scripts/VisIncr'
-NeoBundle 'sirver/ultisnips'
-NeoBundle 'AndrewRadev/splitjoin.vim'
-NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'junegunn/fzf.vim'
 NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'tpope/vim-unimpaired'
-"NeoBundle 'vim-syntastic/syntastic'
+NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'peterhoeg/vim-qml'
+NeoBundle 'racer-rust/vim-racer'
+NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'sirver/ultisnips'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'tpope/vim-commentary'
+NeoBundle 'tpope/vim-eunuch'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-sleuth'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'vim-scripts/VisIncr'
+NeoBundle 'w0rp/ale'
 
 call neobundle#end()
 
 filetype plugin indent on
 
 NeoBundleCheck
+
+" '.' is an end of word designator
+set iskeyword-=.
+" '#' is an end of word designator
+set iskeyword-=#
+" '-' is an end of word designator
+set iskeyword-=-
+" '_' is an end of word designator
+set iskeyword-=_
 
 """"""""""""""""""""
 " sirver/ultisnips "
@@ -402,7 +434,7 @@ let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = ['vet', 'vetshadow', 'golint', 'errcheck']
 let g:go_loclist_height = 0
 let g:go_auto_sameids = 1
-let g:go_updatetime = 100
+"let g:go_updatetime = 300
 let g:go_alternate_mode = "vi"
 let g:go_gocode_unimported_packages = 1
 let g:go_list_type = "quickfix"
@@ -417,8 +449,8 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>c <Plug>(go-coverage)
 au FileType go nmap <leader>l <Plug>(go-metalinter)
-au FileType go nmap <leader>d <Plug>(go-doc-tab)
-au FileType go nmap <leader><CR> <Plug>(go-def-tab)
+au FileType go nmap <leader>d <Plug>(go-doc)
+au FileType go nmap <leader><CR> <Plug>(go-def)
 au FileType go nmap <leader>i <Plug>(go-implements)
 au FileType go nmap <leader><leader> <Plug>(go-info)
 au FileType go nmap <leader>x <Plug>(go-describe)
@@ -533,6 +565,24 @@ endif
 
 if isdirectory(expand("~/.vim/bundle/rust.vim/"))
 
+let g:rustfmt_command = 'cargo fmt -- '
+let g:rustfmt_autosave = 1
+
+"""
+" Mappings
+"""
+
+au FileType rust nnoremap <silent> <leader>r :RustRun<CR>
+au FileType rust nnoremap <silent> <leader>b :RustFmt<CR>
+au FileType rust nnoremap <silent> <leader><CR> :YcmCompleter GoTo<CR>
+au FileType rust nnoremap <silent> <leader><leader> :YcmCompleter GetType<CR>
+
+let g:racer_cmd = "racer"
+" let g:racer_experimental_completer = 1
+au FileType rust nmap <leader>d <Plug>(rust-doc)
+
+let g:rust_recommended_style = 0
+
 endif
 
 """"""""""""""""""""""""""""""""
@@ -572,3 +622,45 @@ let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 endif
+
+""""""""""""""""""""
+" junegunn/fzf.vim "
+""""""""""""""""""""
+
+if isdirectory(expand("~/.vim/bundle/fzf.vim"))
+
+"""
+" Settings
+"""
+
+let g:fzf_tags_command = 'gotags -R -f tags .'
+
+endif
+
+""""""""""""
+" w0rp/ale "
+""""""""""""
+
+if isdirectory(expand("~/.vim/bundle/ale"))
+
+"""
+" Settings
+"""
+
+let g:ale_sign_error = 'e'
+let g:ale_sign_warning = 'w'
+let g:ale_set_highlights = 1
+let g:airline#extensions#ale#enabled = 1
+
+let g:ale_lint_on_text_changed = 'never'
+
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 0
+
+endif
+
+
+" don't override this!
+set textwidth=80
