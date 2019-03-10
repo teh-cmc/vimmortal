@@ -434,14 +434,14 @@ inoremap <expr> <ce> pumvisible() ? "\<C-y>" : "\<cr>"
 inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use `[c` and `]c` to navigate diagnostics
-nnoremap <silent> [c <Plug>(coc-diagnostic-prev)
-nnoremap <silent> ]c <Plug>(coc-diagnostic-next)
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Goto definition & friends
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
+nmap gd <Plug>(coc-definition)
+nmap gy <Plug>(coc-type-definition)
+nmap gi <Plug>(coc-implementation)
+nmap gr <Plug>(coc-references)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
@@ -452,15 +452,15 @@ function! s:show_documentation()
   endif
 endfunction
 
-nnoremap <leader>rn <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
 
-vnoremap <leader>f <Plug>(coc-format-selected)
+vmap <leader>f <Plug>(coc-format-selected)
 
-vnoremap <leader>a  <Plug>(coc-codeaction-selected)
-nnoremap <leader>a  <Plug>(coc-codeaction-selected)
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
-nnoremap <leader>ac  <Plug>(coc-codeaction)
-nnoremap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>qf <Plug>(coc-fix-current)
 
 " Add diagnostic info to status bar
 let g:lightline = {
