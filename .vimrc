@@ -325,12 +325,12 @@ Plug 'wellle/targets.vim' " improved text objects
 Plug 'SirVer/ultisnips' " snippet engine
 
 "" Heavy hitters
-Plug 'Valloric/YouCompleteMe' " TODO(cmc)
-" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}} " the ultimate LSP integration
+" Plug 'Valloric/YouCompleteMe' " TODO(cmc)
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}} " the ultimate LSP integration
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " TODO(cmc)
 
 "" Hacks
-Plug 'fatih/vim-go' " because LSP formatting is broken
+Plug 'teh-cmc/vim-go' " because LSP formatting is broken
 
 call plug#end()
 
@@ -400,7 +400,7 @@ let g:lightline = {
 \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
 \ },
 \ 'component_function': {
-\   'cocstatus': 'LSCServerStatus'
+\   'cocstatus': 'coc#status'
 \ },
 \ }
 
@@ -410,11 +410,15 @@ set rtp+=~/.fzf
 
 let g:fzf_command_prefix = 'Fzf'
 
-noremap ;b :FzfBuffers<CR>
-noremap ;f :FzfFiles<CR>
-noremap ;t :FzfTags<CR>
-noremap ;a :FzfAg<CR>
-noremap ;h :FzfHistory<CR>
+nnoremap ;b :FzfBuffers<CR>
+nnoremap ;f :FzfFiles<CR>
+nnoremap ;t :FzfTags<CR>
+nnoremap ;a :FzfAg<CR>
+nnoremap ;h :FzfHistory<CR>
+
+" Aaaand here comes the hacks
+nnoremap ;s :CocList -I outline
+nnoremap ;ws :CocList -I symbols
 
 " TODO(cmc): implement ;s -> fzf within all of the current file's symbols (via LSP)
 " TODO(cmc): implement ;ws -> fzf within all of the current workspace's symbols (via LSP)
@@ -438,47 +442,47 @@ let g:deoplete#enable_at_startup = 1
 
 "" SirVer/ultisnips """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:UltiSnipsExpandTrigger="<C-e>"
-let g:UltiSnipsJumpForwardTrigger="<TAB>"
-let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
+let g:UltiSnipsExpandTrigger="<C-p>"
+let g:UltiSnipsJumpForwardTrigger="<C-j>"
+let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 
 "" natebosh/vim-lsc """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-    " \ 'GoToDefinitionSplit': ['<C-W>]', '<C-W><C-]>'],
-let g:lsc_auto_map = {
-    \ 'GoToDefinition': 'gd',
-    \ 'FindReferences': 'gr',
-    \ 'NextReference': '<C-n>',
-    \ 'PreviousReference': '<C-p>',
-    \ 'FindImplementations': 'gI',
-    \ 'FindCodeActions': 'ga',
-    \ 'Rename': 'gR',
-    \ 'ShowHover': v:true,
-    \ 'DocumentSymbol': 'go',
-    \ 'WorkspaceSymbol': 'gS',
-    \ 'SignatureHelp': '<leader>,>',
-    \ 'Completion': 'completefunc',
-    \}
+" \ 'GoToDefinitionSplit': ['<C-W>]', '<C-W><C-]>'],
+" let g:lsc_auto_map = {
+"     \ 'GoToDefinition': 'gd',
+"     \ 'FindReferences': 'gr',
+"     \ 'NextReference': '<C-n>',
+"     \ 'PreviousReference': '<C-p>',
+"     \ 'FindImplementations': 'gI',
+"     \ 'FindCodeActions': 'ga',
+"     \ 'Rename': 'gR',
+"     \ 'ShowHover': v:true,
+"     \ 'DocumentSymbol': 'go',
+"     \ 'WorkspaceSymbol': 'gS',
+"     \ 'SignatureHelp': '<leader>,>',
+"     \ 'Completion': 'completefunc',
+"     \}
 
-let g:lsc_server_commands = {
-    \ 'go': {
-    \    'command': 'go-langserver',
-    \    'message_hooks': {
-    \        'initialize': {
-    \            'initializationOptions': {
-    \               'gocodeCompletionEnabled': v:true,
-    \               'diagnosticsEnabled': v:true,
-    \               'lintTool': 'golint',
-    \               'goimportsLocalPrefix': 'github.com/znly',
-    \               'useBinaryPkgCache': v:true
-    \            },
-    \        },
-    \    },
-    \  },
-    \}
+" let g:lsc_server_commands = {
+"     \ 'go': {
+"     \    'command': 'go-langserver',
+"     \    'message_hooks': {
+"     \        'initialize': {
+"     \            'initializationOptions': {
+"     \               'gocodeCompletionEnabled': v:true,
+"     \               'diagnosticsEnabled': v:true,
+"     \               'lintTool': 'golint',
+"     \               'goimportsLocalPrefix': 'github.com/znly',
+"     \               'useBinaryPkgCache': v:true
+"     \            },
+"     \        },
+"     \    },
+"     \  },
+"     \}
 
-let g:lsc_enable_autocomplete = v:true
-let g:lsc_snipper_support = v:true
+" let g:lsc_enable_autocomplete = v:true
+" let g:lsc_snipper_support = v:true
 
 "" neoclide/coc.nvim """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -486,75 +490,75 @@ let g:lsc_snipper_support = v:true
 
 "" Commands
 
-" command! -nargs=0 Format :call CocAction('format')
-" command! -nargs=? Fold   :call CocAction('fold', <f-args>)
+command! -nargs=0 Format :call CocAction('format')
+command! -nargs=? Fold   :call CocAction('fold', <f-args>)
 
-" "" Hooks
-" " TODO(cmc): disable auto-diagnostics it pisses me off
+"" Hooks
+" TODO(cmc): disable auto-diagnostics it pisses me off
 
-" augroup coc
-"     autocmd!
+augroup coc
+    autocmd!
 
-"     " Highlight symbol under cursor on CursorHold
-"     autocmd CursorHold * silent call CocActionAsync('highlight')
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
 
-"     " We use fatih/vim-go's formatting functions instead
-"     " autocmd FileType go autocmd BufWritePre * call CocAction('format')
+    " We use fatih/vim-go's formatting functions instead
+    " autocmd FileType go autocmd BufWritePre * call CocAction('format')
 
-"     autocmd FileType json autocmd BufWritePre * call CocAction('format')
-" augroup END
+    autocmd FileType json autocmd BufWritePre * call CocAction('format')
+augroup END
 
-" "" Mappings
+"" Mappings
 
-" " Smaller updatetime for CursorHold & CursorHoldI
-" set updatetime=300
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
 
-" nnoremap <leader>, :call CocAction('showSignatureHelp')<CR>
+nnoremap <leader>, :call CocAction('showSignatureHelp')<CR>
 
-" " Use <tab>/<S-tab> to cycle through completions
-" inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
-" inoremap <expr><S-tab> pumvisible() ? "\<C-p>" : "\<tab>"
-" inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-" inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
-" let g:coc_snippet_next = '<TAB>'
-" let g:coc_snippet_previous = '<S-TAB>' " TODO(cmc): fix this
+" Use <tab>/<S-tab> to cycle through completions
+inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
+inoremap <expr><S-tab> pumvisible() ? "\<C-p>" : "\<tab>"
+inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+let g:coc_snippet_next = '<C-j>'
+let g:coc_snippet_previous = '<C-k>'
 
-" " Expand snippets with <CR> or <C-e>
-" " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-" inoremap <expr> <C-e> pumvisible() ? "\<C-y>" : "\<cr>"
+" Expand snippets with <CR> or <C-e>
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+inoremap <expr> <C-e> pumvisible() ? "\<C-y>" : "\<cr>"
 
-" " Manually trigger completion with <C-space>
-" inoremap <silent><expr> <c-space> coc#refresh()
+" Manually trigger completion with <C-space>
+inoremap <silent><expr> <c-space> coc#refresh()
 
-" " Use `[c` and `]c` to navigate diagnostics
-" " nmap <leader>, <Plug>(coc-diagnostic-info)
-" nmap <silent> [c <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Use `[c` and `]c` to navigate diagnostics
+" nmap <leader>, <Plug>(coc-diagnostic-info)
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-" " Goto definition & friends
-" nmap gd <Plug>(coc-definition)
-" nmap gy <Plug>(coc-type-definition)
-" nmap gi <Plug>(coc-implementation)
-" nmap gr <Plug>(coc-references)
+" Goto definition & friends
+nmap gd <Plug>(coc-definition)
+nmap gy <Plug>(coc-type-definition)
+nmap gi <Plug>(coc-implementation)
+nmap gr <Plug>(coc-references)
 
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-" function! s:show_documentation()
-"   if &filetype == 'vim'
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocAction('doHover')
-"   endif
-" endfunction
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
-" nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
 
-" vmap <leader>f <Plug>(coc-format-selected)
+vmap <leader>f <Plug>(coc-format-selected)
 
-" vmap <leader>a <Plug>(coc-codeaction-selected)
-" nmap <leader>a <Plug>(coc-codeaction-selected)
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
-" nmap <leader>ac <Plug>(coc-codeaction)
-" nmap <leader>qf <Plug>(coc-fix-current)
+nmap <leader>ac <Plug>(coc-codeaction)
+nmap <leader>qf <Plug>(coc-fix-current)
 
 "" tpope/vim-commentary """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -575,11 +579,12 @@ let g:VM_default_mappings = 0
 
 "" fatih/vim-go """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TODO(cmc): disable completion (use fork?)
+" TODO(cmc): only keep snippets & format command
 
 let g:go_addtags_transform = 'snakecase'
 let g:go_alternate_mode = "edit"
 let g:go_asmfmt_autosave = 1
-let g:go_autodetect_gopath = 1
+let g:go_autodetect_gopath = 0
 let g:go_bin_path = expand("$GOPATH/bin")
 let g:go_def_mapping_enabled = 0
 let g:go_doc_keywordprg_enabled = 0
