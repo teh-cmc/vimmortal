@@ -22,8 +22,11 @@ set grepprg=ag\ --nocolor\ --filename\ --column\ --vimgrep\ --silent\ --smart-ca
 
 "" Global editing settings """""""""""""""""""""""""""""""""""""""""""""""""""""
 
-syntax on
 filetype plugin indent on
+
+" Syntax highlighting with 24-bit colors!
+syntax on
+set termguicolors
 
 " UTF-8 everywhere
 scriptencoding utf-8
@@ -50,7 +53,7 @@ set scrolloff=5
 " Display size of visual selection
 set showcmd
 " Show matching [, (, etc... for 'matchtime' tenth of seconds
-set showmatch matchtime=3
+" set showmatch matchtime=3
 " Smart case
 set ignorecase smartcase
 " Highlight search pattern as you type
@@ -157,15 +160,10 @@ cnoremap <C-a> <left>
 cnoremap <C-b> <right>
 
 " Easier quick window navigation
-nnoremap <silent> <C-j> :wincmd j<CR>
-nnoremap <silent> <C-k> :wincmd k<CR>
-nnoremap <silent> <C-h> :wincmd h<CR>
-nnoremap <silent> <C-l> :wincmd l<CR>
-" TODO(cmc): fix this mess
-" nnoremap <silent> <C-J> :wincmd J<CR>
-" nnoremap <silent> <C-K> :wincmd K<CR>
-" nnoremap <silent> <C-H> :wincmd H<CR>
-" nnoremap <silent> <C-L> :wincmd L<CR>
+nnoremap <silent> <C-h> :<C-u>call <SID>JumpWithWrap('h', 'l')<CR>
+nnoremap <silent> <C-j> :<C-u>call <SID>JumpWithWrap('j', 'k')<CR>
+nnoremap <silent> <C-k> :<C-u>call <SID>JumpWithWrap('k', 'j')<CR>
+nnoremap <silent> <C-l> :<C-u>call <SID>JumpWithWrap('l', 'h')<CR>
 
 " Searching for next/previous occurence will center the screen
 nnoremap n nzzzv
@@ -255,6 +253,7 @@ augroup globalHooks
     endfunction
 
     " 80-chars limit per line for everything but
+    " TODO(cmc): override default tw=80 for vimscript (wtf neovim?)
     let blacklist_textwidth80 = ['markdown','json','vim']
     autocmd FileType * if index(blacklist_textwidth80, &ft) < 0 | setlocal textwidth=80
 
@@ -310,6 +309,8 @@ let plugin_ft_zig = 'ziglang/zig.vim' " filetype support for Zig
 "" External integrations
 let plugin_intgr_fzf = 'junegunn/fzf.vim' " fzf integration
 let plugin_intgr_gitgutter = 'airblade/vim-gitgutter' " git status gutter and (way too) much more
+let plugin_intgr_tmux = 'christoomey/vim-tmux-navigator' " tmux transparent pane-switching
+let plugin_intgr_tmuxstatus = 'edkolev/tmuxline.vim' " tmux status line generator matching lightline
 
 "" QOL improvements & extra features
 let plugin_qol_choosewin = 't9md/vim-choosewin' " C-w done right
@@ -335,11 +336,10 @@ let plugin_ui_lightline = 'itchyny/lightline.vim' " orthogonal status bar
 "" Completion
 let plugin_completion_ycm = 'Valloric/YouCompleteMe' " heavyweight completion engine
 let plugin_completion_ultisnips = 'SirVer/ultisnips' " snippet engine
-let plugin_completion_lsc = 'natebosch/vim-lsc' " lightweight, orthogonal LSP support
-" 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+let plugin_completion_lsc = 'natebosch/vim-lsc' " lightweight, orthogonal native LSP support
 let plugin_completion_coc = 'neoclide/coc.nvim' " heavyweight LSP support with VSCode bindings
-" 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " heavyweight completion engine
 let plugin_completion_deoplete = 'Shougo/deoplete.nvim' " heavyweight completion engine
+let plugin_completion_lcn = 'autozimu/LanguageClient-neovim' " lightweight, orthogonal Rust-based LSP support
 
 "" Language specific hacks
 let plugin_lang_go = 'teh-cmc/vim-go' " because LSP formatting is broken
@@ -355,6 +355,8 @@ let plugins={
 \
 \   plugin_intgr_fzf:        1,
 \   plugin_intgr_gitgutter:  1,
+\   plugin_intgr_tmux:       1,
+\   plugin_intgr_tmuxstatus: 1,
 \
 \   plugin_qol_choosewin:    1,
 \   plugin_qol_commentary:   1,
@@ -375,18 +377,30 @@ let plugins={
 \   plugin_ui_colorschemes:  1,
 \   plugin_ui_lightline:     1,
 \
-\   plugin_completion_ycm:        0,
+\   plugin_completion_ycm:        1,
 \   plugin_completion_ultisnips:  1,
-\   plugin_completion_lsc:        0,
-\   plugin_completion_coc:        1,
+\   plugin_completion_lsc:        1,
+\   plugin_completion_coc:        0,
 \   plugin_completion_deoplete:   0,
+\   plugin_completion_lcn:        0,
 \
 \   plugin_lang_go:  1,
 \}
 
+let plugins_instr = {
+\   plugin_completion_coc:        {'tag': '*', 'do': { -> coc#util#install()}},
+\   plugin_completion_deoplete:   { 'do': ':UpdateRemotePlugins' },
+\   plugin_completion_lcn:        { 'branch': 'next', 'do': 'bash install.sh' },
+\}
+
 for [pname, penabled] in items(plugins)
     if penabled
-        Plug pname
+        if has_key(plugins_instr, pname)
+            let instr = plugins_instr[pname]
+            Plug pname, instr
+        else
+            Plug pname
+        endif
     endif
 endfor
 
@@ -395,11 +409,10 @@ call plug#end()
 "" flazz/vim-colorschemes' """""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if plugins[plugin_ui_colorschemes]
-    colorscheme twilight256
+    colorscheme molokai_dark
 endif
 
 "" kien/rainbow_parentheses.vim """"""""""""""""""""""""""""""""""""""""""""""""
-" TODO(cmc): fix fucked up dark parentheses
 
 if plugins[plugin_qol_rainbow]
     augroup rainbowParentheses
@@ -427,9 +440,8 @@ if plugins[plugin_qol_splitjoin]
     let g:splitjoin_split_mapping = ''
     let g:splitjoin_join_mapping = ''
 
-    " TODO(cmc): don't use S
-    nnoremap Sj :SplitjoinSplit<cr>
-    nnoremap Sk :SplitjoinJoin<cr>
+    nnoremap Xj :SplitjoinSplit<cr>
+    nnoremap Xk :SplitjoinJoin<cr>
 endif
 
 "" airblade/vim-gitgutter """"""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -493,6 +505,8 @@ endif
 " TODO(cmc): implement ;s -> fzf within all of the current file's symbols (via LSP)
 " TODO(cmc): implement ;ws -> fzf within all of the current workspace's symbols (via LSP)
 " See https://github.com/junegunn/fzf/blob/master/README-VIM.md#fzfrun
+"
+" TODO(cmc): or even better, find a way to forward the quickfix & location lists to fzf?
 
 if plugins[plugin_intgr_fzf]
     set rtp+=~/.fzf
@@ -502,11 +516,14 @@ if plugins[plugin_intgr_fzf]
     nnoremap ;b :FzfBuffers<CR>
     nnoremap ;f :FzfFiles<CR>
     nnoremap ;t :FzfTags<CR>
+    " TODO(cmc): whole workspace
+    nnoremap ;A :FzfAg<CR>
+    " TODO(cmc): current buffer
     nnoremap ;a :FzfAg<CR>
     nnoremap ;h :FzfHistory<CR>
 
+    " Hacks
     if plugins[plugin_completion_coc]
-        " TODO(cmc): those are hacks that use some kind of custom preview...
         nnoremap ;s :CocList -I outline<CR>
         nnoremap ;ws :CocList -I symbols<CR>
     endif
@@ -535,12 +552,22 @@ endif
 "" SirVer/ultisnips """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if plugins[plugin_completion_ultisnips]
-    let g:UltiSnipsExpandTrigger="<C-p>"
+    let g:UltiSnipsExpandTrigger="<C-e>"
     let g:UltiSnipsJumpForwardTrigger="<C-j>"
     let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+
+    if plugins[plugin_completion_coc]
+        let g:UltiSnipsExpandTrigger="<C-p>"
+    endif
 endif
 
 "" natebosh/vim-lsc """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO(cmc): automatically close preview window
+" TODO(cmc): don't auto-enter quickfix window when searching for references
+" TODO(cmc): open preview when completing a function's parameters..
+" TODO(cmc): ..or provide support for dynamic snippets
+" TODO(cmc): references should be in location-list
+" TODO(cmc): diagnostics should be in quickfix-list
 
 if plugins[plugin_completion_lsc]
     let g:lsc_auto_map = {
@@ -554,8 +581,8 @@ if plugins[plugin_completion_lsc]
         \ 'ShowHover': v:true,
         \ 'DocumentSymbol': 'go',
         \ 'WorkspaceSymbol': 'gS',
-        \ 'SignatureHelp': '<leader>,>',
-        \ 'Completion': 'completefunc',
+        \ 'SignatureHelp': '<leader>,',
+        \ 'Completion': 'omnifunc',
         \}
 
     let g:lsc_server_commands = {
@@ -576,7 +603,7 @@ if plugins[plugin_completion_lsc]
         \}
 
     let g:lsc_enable_autocomplete = v:true
-    let g:lsc_snipper_support = v:true
+    let g:lsc_snippet_support = v:true
 endif
 
 "" neoclide/coc.nvim """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -658,6 +685,20 @@ if plugins[plugin_completion_coc]
     nmap <leader>qf <Plug>(coc-fix-current)
 endif
 
+"" autozimu/LanguageClient-neovim """"""""""""""""""""""""""""""""""""""""""""""
+
+let g:LanguageClient_serverCommands = {
+ \  'go': ['go-langserver',
+ \         '-diagnostics',
+ \         '-func-snippet-enabled',
+ \         '-gocodecompletion',
+ \         '-lint-tool=golint',
+ \         '-format-tool=goimports',
+ \         '-trace',
+ \         '-logfile=/tmp/kek.log',
+ \  ],
+ \}
+
 "" tpope/vim-commentary """"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if plugins[plugin_qol_commentary]
@@ -682,12 +723,12 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "" fatih/vim-go """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TODO(cmc): only keep snippets & format command
+" TODO(cmc): only keep snippets, improved ft/syntax, format command
 
 if plugins[plugin_lang_go]
     let g:go_addtags_transform = 'snakecase'
     let g:go_alternate_mode = "edit"
-    let g:go_asmfmt_autosave = 1
+    let g:go_asmfmt_autosave = 0
     let g:go_autodetect_gopath = 0
     let g:go_bin_path = expand("$GOPATH/bin")
     let g:go_def_mapping_enabled = 0
@@ -703,25 +744,25 @@ if plugins[plugin_lang_go]
     let g:go_get_update = 1
     let g:go_gocode_propose_builtins = 0
     let g:go_gocode_propose_source = 0
-    let g:go_gocode_unimported_packages = 0
-    let g:go_highlight_array_whitespace_error = 0
-    let g:go_highlight_build_constraints = 0
-    let g:go_highlight_chan_whitespace_error = 0
-    let g:go_highlight_debug = 0
-    let g:go_highlight_extra_types = 0
-    let g:go_highlight_fields = 0
-    let g:go_highlight_format_strings = 0
-    let g:go_highlight_function_calls = 0
-    let g:go_highlight_function_parameters = 0
-    let g:go_highlight_functions = 0
-    let g:go_highlight_generate_tags = 0
-    let g:go_highlight_operators = 0
-    let g:go_highlight_space_tab_error = 0
-    let g:go_highlight_string_spellcheck = 0
-    let g:go_highlight_trailing_whitespace_error = 0
-    let g:go_highlight_types = 0
-    let g:go_highlight_variable_assignments = 0
-    let g:go_highlight_variable_declarations = 0
+    let g:go_gocode_unimported_packages = 1
+    let g:go_highlight_array_whitespace_error = 1
+    let g:go_highlight_build_constraints = 1
+    let g:go_highlight_chan_whitespace_error = 1
+    let g:go_highlight_debug = 1
+    let g:go_highlight_extra_types = 1
+    let g:go_highlight_fields = 1
+    let g:go_highlight_format_strings = 1
+    let g:go_highlight_function_calls = 1
+    let g:go_highlight_function_parameters = 1
+    let g:go_highlight_functions = 1
+    let g:go_highlight_generate_tags = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_space_tab_error = 1
+    let g:go_highlight_string_spellcheck = 1
+    let g:go_highlight_trailing_whitespace_error = 1
+    let g:go_highlight_types = 1
+    let g:go_highlight_variable_assignments = 1
+    let g:go_highlight_variable_declarations = 1
     let g:go_jump_to_error = 0
     let g:go_list_autoclose = 0
     let g:go_list_height = 0
