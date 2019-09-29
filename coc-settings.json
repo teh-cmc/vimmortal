@@ -1,15 +1,7 @@
 {
     "suggest.noselect": false,
     "rust-analyzer.enableCargoWatchOnStartup": "enabled",
-    "coc.preferences.rootPatterns": [
-        ".rustfmt.toml",
-        "go.mod",
-        "Gopkg.lock",
-        ".vim",
-        ".git",
-        ".hg",
-        ".projections.json"
-    ],
+    "coc.preferences.rootPatterns": [],
     "list.normalMappings": {
         "t": "action:tabe",
         "v": "action:vsplit",

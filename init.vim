@@ -341,7 +341,6 @@ let plugin_qol_visualstar = 'thinca/vim-visualstar' " makes * work on visual sel
 let plugin_qol_rooter = 'airblade/vim-rooter' " autchdir to nearest git root
 let plugin_qol_gitmsg = 'rhysd/git-messenger.vim' " shows commit message under cursor
 let plugin_qol_signature = 'kshenoy/vim-signature' " shows marks in the gutter
-" TODO(cmc): startify index should start at 1 rather than 0
 " TODO(cmc): zirrostig/vim-schlepp?
 
 "" UI
@@ -642,9 +641,6 @@ endif
 "" neoclide/coc.nvim """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if plugins[plugin_completion_coc]
-
-    autocmd FileType json syntax match Comment +\/\/.\+$+
-
     "" Programs
 
     "" Commands
@@ -658,7 +654,8 @@ if plugins[plugin_completion_coc]
     augroup coc
         autocmd!
 
-        autocmd Filetype rust,go,json autocmd CursorHold * silent call CocActionAsync('highlight')
+        autocmd FileType json syntax match Comment +\/\/.\+$+
+        autocmd Filetype rust,go,json autocmd CursorHold * :Highlight
         autocmd FileType rust,go,json autocmd BufWritePre * :Format
     augroup END
 
@@ -782,9 +779,15 @@ if plugins[plugin_qol_commentary]
     autocmd FileType json setlocal commentstring=//\ %s
 endif
 
-"" airblade/vim-rooter" """"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" airblade/vim-rooter """""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:rooter_patterns = ['.rustfmt.toml', 'Cargo.toml', 'go.mod', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
+let g:rooter_patterns = ['.rustfmt.toml', 'go.mod', '.git', '.git/', '_darcs/', '.hg/', '.bzr/', '.svn/']
+
+"" mhinz/vim-startify """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:startify_change_to_dir = 0
+let g:startify_change_to_vcs_root = 0
+let g:startify_custom_indices = map(range(1,100), 'string(v:val)')
 
 "" romainl/vim-qf """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
