@@ -1,0 +1,29 @@
+{
+    "suggest.noselect": false,
+    "rust-analyzer.enableCargoWatchOnStartup": "enabled",
+    "coc.preferences.rootPatterns": [
+        ".rustfmt.toml",
+        "go.mod",
+        "Gopkg.lock",
+        ".vim",
+        ".git",
+        ".hg",
+        ".projections.json"
+    ],
+    "list.normalMappings": {
+        "t": "action:tabe",
+        "v": "action:vsplit",
+        "x": "action:split",
+    },
+    "list.insertMappings": {
+        "<C-t>": "action:tabe",
+        "<C-v>": "action:vsplit",
+        "<C-x>": "action:split",
+    },
+    "diagnostic.checkCurrentLine": true,
+    "diagnostic.refreshAfterSave": false,
+    "diagnostic.virtualText": true,
+    "signature.hideOnTextChange": true,
+    "codeLens.enable": true,
+    "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+}
